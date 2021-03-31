@@ -1,15 +1,26 @@
 const { app, BrowserWindow } = require("electron");
 
 function createWindow() {
+	// Create a window
 	const win = new BrowserWindow({
 		width: 400,
 		height: 300,
+		webPreferences: {
+			nodeIntegration: true,
+			contextIsolation: false,
+			enableRemoteModule: true,
+		},
 	});
 
-	win.loadFile("index.html");
+	// load electron project
+	win.loadFile("./src/index.html");
+
+	// prevent resizing of the window
+	win.on("will-resize", e => e.preventDefault());
 }
 
-app.whenReady().then(() => {
+// when app is ready, create the window
+app.on("ready", () => {
 	createWindow();
 
 	app.on("activate", () => {
